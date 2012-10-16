@@ -15,7 +15,7 @@
 
  ---------------------------------------------------------------------
 
-   pin configuration: (cartridge pin) [key CIC pin]
+   pin configuration:
 
                        ,---_---.
                    +5V |1     8| GND
