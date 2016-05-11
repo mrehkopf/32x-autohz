@@ -22,8 +22,10 @@ processor p12f629
 ;                   +5V |1     8| GND
 ;                    nc |2     7| nc
 ;                    nc |3     6| 50/60Hz switch out
-;                    nc |4     5| Vsync in (TTL, e.g. from LM1881)
+;                    nc |4     5| Vsync in (TTL)
 ;                       `-------'
+;   Vsync can be taken from cartridge slot pin B13 or CN4 pin 15.
+;   No sync separator required.
 
 ; -----------------------------------------------------------------------
     __CONFIG _INTRC_OSC_CLKOUT & _WDT_OFF & _PWRTE_OFF & _MCLRE_OFF & _BODEN_OFF & _CP_OFF & _CPD_OFF
