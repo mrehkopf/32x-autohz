@@ -1,10 +1,7 @@
-    #include <p12f629.inc>
-processor p12f629
-
 ; ---------------------------------------------------------------------
 ;   32X 50/60Hz automatic slave switch
 ;
-;   Copyright (C) 2012 by Maximilian Rehkopf (ikari_01) <otakon@gmx.net>
+;   Copyright (C) 2012-2021 by Maximilian Rehkopf (ikari_01) <otakon@gmx.net>
 ;   Idea by n00b
 ;
 ;   This program is designed to run on a PIC12F629 or compatible micro
@@ -26,6 +23,19 @@ processor p12f629
 ;                       `-------'
 ;   Vsync can be taken from cartridge slot pin B13 or CN4 pin 15.
 ;   No sync separator required.
+
+; -----------------------------------------------------------------------
+; processor support. gputils's ELIFDEF is broken so using nested IFDEFs.
+	IFDEF __12F629
+		INCLUDE p12f629.inc
+	ELSE
+		IFDEF __12F675
+			INCLUDE p12f675.inc
+		ELSE
+			ERROR "No supported processor selected (p12f629, p12f675)!"
+		ENDIF
+	ENDIF
+; -----------------------------------------------------------------------
 
 ; -----------------------------------------------------------------------
     __CONFIG _INTRC_OSC_CLKOUT & _WDT_OFF & _PWRTE_OFF & _MCLRE_OFF & _BODEN_OFF & _CP_OFF & _CPD_OFF
@@ -58,6 +68,9 @@ init
 	banksel	OSCCAL		; set OSCCAL from dedicated location
 	call	h'3ff'
 	movwf	OSCCAL
+	IFDEF __12F675
+		clrf	ANSEL	; for 12F675: disable analog function
+	ENDIF
 	banksel GPIO
 	clrf	GPIO    	; set all pins low
 	movlw	b'00000111'	; GPIO2..0 are digital I/O (not connected to comparator)
